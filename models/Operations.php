@@ -4,11 +4,12 @@ class Operations
 {
     private $connection;
 
-    public function __construct($connection)
+    public function __construct($connection) //constuctor
     {
         $this->connection = $connection;
     }
 
+    //functions for store and exucute MySQL code
     public function createTable($tableName)
     {
         $sql = "CREATE TABLE IF NOT EXISTS {$tableName} (
