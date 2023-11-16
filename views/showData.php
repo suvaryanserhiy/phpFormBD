@@ -40,11 +40,14 @@
 
 <?php
 
+//imports
 require_once('../models/Database.php');
 require_once('../controllers/OperationsController.php');
 
-session_start();
+session_start(); //start session
 
+
+//setting
 $settings = parse_ini_file('../settings.ini');
 $server = $settings['server'];
 $username = $settings['username'];
@@ -53,14 +56,14 @@ $dbName = $settings['database'];
 
 
 try {
-    $connection = ($database = new Database($server, $username, $password, $dbName))->getConnection();
+    $connection = ($database = new Database($server, $username, $password, $dbName))->getConnection(); //getting a connection to a server
 } catch (Exception $e) {
-    echo 'Error al conectarse al servidor';
+    echo 'Error al conectarse al servidor'; // if failure
     exit();
 }
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { // if method POST
     try {
         $table = isset($_POST['table']) ? $_POST['table'] : false;
     } catch (Exception $e) {
@@ -69,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        if ($table){
+        if ($table){ // if table not false
             try {
                 $tableOperation = new OperationsController($connection);
 
-                $tableOperation->showData($table);
+                $tableOperation->showData($table); //execute a showData method
             }catch (Exception $e){
                 echo "Error al vilualizar los  datos" . $connection->$e;
             }
