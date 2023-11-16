@@ -50,37 +50,42 @@ $password = $settings['password'];
 $dbName = $settings['database'];
 
 
-try {
-
-    $database = new Database($server, $username, $password, $dbName);
-    $conection = $database->getConnection();
+try {     //tring to connect to a database with parameters
+    $database = new Database($server, $username, $password, $dbName); // establish connection with a server
+    $conection = $database->getConnection();  //get that connenction
 
 } catch (Exception $e) {
-    echo 'Error al conectarse a servidor';
+    echo 'Error al conectarse a servidor';   //if connection wasn`t successful
 }
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    try {
-        if (isset($_POST['tableName'])) {
-            $table = $_POST['tableName'];
+try {
+    if ($_SERVER['REQUEST_METHOD'] === "POST") { //check's if the request method from a server is POST
+        try {
+            if (isset($_POST['tableName'])) {
+                $table = $_POST['tableName'];   //check`s if a tableName exists
+            }
+        } catch (ErrorException $e) {
+            echo "Error al intruducir el nombre de la tabla"; // if not exists pront`s
+            exit(); // exiting from a code;
         }
-    } catch (ErrorException $e) {
-        echo "Error al intruducir el nombre de la tabla";
-        exit();
+
+
+        try {
+            $sql = "CREATE DATABASE IF NOT EXISTS form"; // simple MySQL command to check if table already exists and if not it create`s it
+
+            $conection->query($sql); // execute a sql command
+
+            $tableController = new OperationsController($conection); // create an obnject
+
+            $tableController->createTable($table); // use Object's method
+
+
+        } catch (Exception $e) {
+            echo "Error al crear la tabla {$table}" .$conection->$e; // if creation of a table was failure
+        }
+
     }
-
-
-    try {
-        $sql = "CREATE DATABASE IF NOT EXISTS form";
-        $conection->query($sql);
-
-        $tableController = new OperationsController($conection);
-
-        $tableController->createTable($table);
-
-
-    } catch (Exception $e) {
-        echo "Error al crear la tabla {$table}" .$conection->$e;
-    }
-
+}catch (RuntimeException $e){
+    echo "Not a POST method sended";  //Print's on a screen custom error message
 }
+
