@@ -40,34 +40,44 @@ session_start();
 // Check if the table was created successfully
 if (isset($_SESSION['table_created']) && $_SESSION['table_created']) {
     echo " <p>Table has been created successfully!</p> ";
-
-// Reset the session variable to avoid displaying the message on subsequent visits
-$_SESSION['table_created'] = false;
+    $_SESSION['table_created'] = false;
 }
-if (isset($_SESSION['valid_insert']) && $_SESSION['valid_insert']){
+
+
+//checks if the insert method was successful
+if (isset($_SESSION['valid_insert']) && $_SESSION['valid_insert']) { //if true
     echo "<p>Successfull input!</p>";
 }
-$_SESSION['valid_insert'] = false;
+$_SESSION['valid_insert'] = false; // restore session variable to a default value
 
-if (isset($_SESSION['valid_update']) && $_SESSION['valid_update']){
+
+//checks if the update method was successful
+if (isset($_SESSION['valid_update']) && $_SESSION['valid_update']) { //if true
     echo "<p>Successfull update!</p>";
 }
-$_SESSION['valid_update'] = false;
+$_SESSION['valid_update'] = false; // restore session variable to a default value
 
-if (isset($_SESSION['insertDBnull']) && $_SESSION['insertDBnull']){
+
+//checks if the input method was successful
+if (isset($_SESSION['insertDBnull']) && $_SESSION['insertDBnull']) { //if true
     echo "<p>No existe ninguna tabla para insertar los datos</p>";
 }
-$_SESSION['insertDBnull'] = false;
+$_SESSION['insertDBnull'] = false; // restore session variable to a default value
 
-if (isset($_SESSION['updateDBnull']) && $_SESSION['updateDBnull']){
+
+//checks if the input method was successful
+if (isset($_SESSION['updateDBnull']) && $_SESSION['updateDBnull']) { //if true
     echo "<p>No existe ninguna tabla para actualizar los datos</p>";
 }
-$_SESSION['updateDBnull'] = false;
+$_SESSION['updateDBnull'] = false; // restore session variable to a default value
 
-if (isset($_SESSION['showDBnull']) && $_SESSION['showDBnull']){
+
+//checks if the input method was successful
+if (isset($_SESSION['showDBnull']) && $_SESSION['showDBnull']) { //if true
     echo "<p>No existe ninguna tabla para mostrar los datos</p>";
 }
-$_SESSION['showDBnull'] = false;
-exit();
+$_SESSION['showDBnull'] = false; // restore session variable to a default value
 
+
+exit();
 ?>
