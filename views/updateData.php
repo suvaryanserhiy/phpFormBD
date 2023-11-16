@@ -61,11 +61,13 @@
 </html>
 <?php
 
+//import
 require_once('../models/Database.php');
 require_once('../controllers/OperationsController.php');
 
-session_start();
+session_start();//session
 
+//settings
 $settings = parse_ini_file('../settings.ini');
 $server = $settings['server'];
 $username = $settings['username'];
@@ -73,9 +75,9 @@ $password = $settings['password'];
 $dbName = $settings['database'];
 
 try {
-    $connection = ($database = new Database($server, $username, $password, $dbName))->getConnection();
+    $connection = ($database = new Database($server, $username, $password, $dbName))->getConnection(); //getting a connections to a server
 
-    try {
+    try {// check if database not empty
         $sql = "SHOW TABLES";
         $result = $connection->query($sql);
         //validation form input data
@@ -91,7 +93,7 @@ try {
     echo 'Error al conectarse al servidor';
     exit();
 }
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {// if mothod POST
     // validation from input
     try {
         $table = isset($_POST['table']) ? $_POST['table'] : false;
@@ -106,11 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // end of validation
 
     try {
-        if ($table && $column && $newValue && $whereCondition) {
+        if ($table && $column && $newValue && $whereCondition) { //if not false
             try {
                 $tableOperation = new OperationsController($connection);
 
-                $tableOperation->updateData($table, $column, $newValue, $whereCondition);
+                $tableOperation->updateData($table, $column, $newValue, $whereCondition); //execute an updateData method from an Object
 
             } catch (Exception $e) {
                 echo 'Error al actualizar los datos';
