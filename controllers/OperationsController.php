@@ -35,7 +35,7 @@ class OperationsController
     public function insertData($table, $name, $telefono, $direccion, $email)
     {
         // Logic for inserting data
-        if (!($this->errorHandling->validateTableInsert($table, $name, $telefono, $direccion, $email))){
+        if (!($this->errorHandling->validateTableInsert($table, $name, $telefono, $email))){
             exit();
         }
         $this->tableOperations->insertData($table, $name, $telefono, $direccion, $email);
