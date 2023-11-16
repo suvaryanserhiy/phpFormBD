@@ -13,16 +13,32 @@ class Database {
         $this->password = $password;
         $this->database = $database;
 
-        $this->connect(); //execute connect function
+        $this->connect($database); //execute connect function
+
+
+
     }
 
-    private function connect() {
-        $this->connection = new mysqli($this->server, $this->username, $this->password, $this->database); // establish connection to a server
+    private function createDatabase($dbName)
+    {
+        $sql = "CREATE DATABASE IF NOT EXISTS {$dbName}";
 
-        if ($this->connection->connect_error) {
-            die("Connection failed: " . $this->connection->connect_error);
+        if ($this->connection->query($sql) === false) {
+            throw new RuntimeException("Error creating database: " . $this->connection->error);
         }
     }
+    private function connect() {
+        $this->connection = new mysqli($this->server, $this->username, $this->password);
+
+        if ($this->connection->connect_error) {
+            throw new RuntimeException("Connection failed: " . $this->connection->connect_error);
+        }
+
+        $this->createDatabase($this->database);
+
+        $this->connection->select_db($this->database);
+    }
+
 
     public function getConnection() { // function to get a connection
         return $this->connection;

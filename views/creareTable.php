@@ -50,6 +50,13 @@ $password = $settings['password'];
 $dbName = $settings['database'];
 
 
+try {
+
+}catch (RuntimeException $e){
+
+}
+
+
 try {     //tring to connect to a database with parameters
     $database = new Database($server, $username, $password, $dbName); // establish connection with a server
     $conection = $database->getConnection();  //get that connenction
@@ -71,9 +78,6 @@ try {
 
 
         try {
-            $sql = "CREATE DATABASE IF NOT EXISTS form"; // simple MySQL command to check if table already exists and if not it create`s it
-
-            $conection->query($sql); // execute a sql command
 
             $tableController = new OperationsController($conection); // create an obnject
 
