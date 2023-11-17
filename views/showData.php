@@ -57,6 +57,25 @@ $dbName = $settings['database'];
 
 try {
     $connection = ($database = new Database($server, $username, $password, $dbName))->getConnection(); //getting a connection to a server
+    try {
+        $connection = ($database = new Database($server, $username, $password, $dbName))->getConnection(); //getting a connection to a server
+        // managing an informative error if no table exists in databse
+        try {
+            $sql = "SHOW TABLES";
+            $result = $connection->query($sql);
+            //validation form input data
+            if ($result->num_rows < 1) { //if sql sequence returns a table without at least 1 row
+                $_SESSION['insertDBnull'] = true;
+                header('Location:index.php'); //redirect to index.php
+                exit();
+            }
+        } catch (Exception $e) {
+            echo "No existe ninguna tabla para mostrar los datos";
+        }
+    } catch (Exception $e) {
+        echo 'Error al conectarse al servidor'; // if failure
+        exit();
+    }
 } catch (Exception $e) {
     echo 'Error al conectarse al servidor'; // if failure
     exit();
@@ -72,17 +91,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { // if method POST
     }
 
     try {
-        if ($table){ // if table not false
+        if ($table) { // if table not false
             try {
                 $tableOperation = new OperationsController($connection);
 
                 $tableOperation->showData($table); //execute a showData method
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 echo "Error al vilualizar los  datos" . $connection->$e;
             }
 
         }
-    }catch (Exception $e){
+    } catch (Exception $e) {
         echo "Error al validar input";
     }
 
