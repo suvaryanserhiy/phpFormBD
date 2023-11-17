@@ -57,6 +57,6 @@ Exercise using php, form and BBDD
     * 124323466
     * 984524534
 * Email debe estar parecido a la plantilla:
-  * andrew-tate@top.gg
+  * 'andrew-tate@top.gg' (sin comillas)
 
     
